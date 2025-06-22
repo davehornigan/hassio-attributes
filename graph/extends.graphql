@@ -1,0 +1,4 @@
+extend type Query {
+    """Returns the literal string 'pong'."""
+    ping: String!
+}

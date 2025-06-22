@@ -1,0 +1,7 @@
+.idea
+.env.*
+.env
+tmp
+docs
+graph/generated.go
+graph/models.go

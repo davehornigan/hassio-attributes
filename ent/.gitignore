@@ -1,0 +1,7 @@
+*
+!entc.go
+!.gitignore
+!schema
+!schema/*
+!mixin
+!mixin/*

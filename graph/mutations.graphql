@@ -1,0 +1,6 @@
+type Mutation {
+    createAttribute(input: CreateAttributeInput!): Attribute
+    updateAttribute(id: ID, input: UpdateAttributeInput!): Attribute
+    createUser(input: CreateUserInput!): User
+    updateUser(id: ID, input: UpdateUserInput!): User
+}
