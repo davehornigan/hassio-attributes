@@ -262,6 +262,9 @@ func (r *Resolver) AttributeWhereInput() AttributeWhereInputResolver {
 	return &attributeWhereInputResolver{r}
 }
 
+// CreateUserInput returns CreateUserInputResolver implementation.
+func (r *Resolver) CreateUserInput() CreateUserInputResolver { return &createUserInputResolver{r} }
+
 // UserWhereInput returns UserWhereInputResolver implementation.
 func (r *Resolver) UserWhereInput() UserWhereInputResolver { return &userWhereInputResolver{r} }
 
@@ -269,4 +272,5 @@ type attributeResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
 type userResolver struct{ *Resolver }
 type attributeWhereInputResolver struct{ *Resolver }
+type createUserInputResolver struct{ *Resolver }
 type userWhereInputResolver struct{ *Resolver }

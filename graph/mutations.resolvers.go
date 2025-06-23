@@ -17,8 +17,8 @@ func (r *mutationResolver) CreateAttribute(ctx context.Context, input ent.Create
 }
 
 // UpdateAttribute is the resolver for the updateAttribute field.
-func (r *mutationResolver) UpdateAttribute(ctx context.Context, id *string, input ent.UpdateAttributeInput) (*ent.Attribute, error) {
-	uid, err := helpers.UUIDFromString(*id)
+func (r *mutationResolver) UpdateAttribute(ctx context.Context, id string, input ent.UpdateAttributeInput) (*ent.Attribute, error) {
+	uid, err := helpers.UUIDFromString(id)
 	if err != nil {
 		return nil, err
 	}
@@ -39,22 +39,41 @@ func (r *mutationResolver) UpdateAttribute(ctx context.Context, id *string, inpu
 
 // CreateUser is the resolver for the createUser field.
 func (r *mutationResolver) CreateUser(ctx context.Context, input ent.CreateUserInput) (*ent.User, error) {
-	return r.Client.User.Create().SetInput(input).Save(ctx)
+	return ent.FromContext(ctx).User.Create().SetInput(input).Save(ctx)
 }
 
 // UpdateUser is the resolver for the updateUser field.
-func (r *mutationResolver) UpdateUser(ctx context.Context, id *string, input ent.UpdateUserInput) (*ent.User, error) {
-	uid, err := helpers.UUIDFromString(*id)
+func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input ent.UpdateUserInput) (*ent.User, error) {
+	uid, err := helpers.UUIDFromString(id)
 	if err != nil {
 		return nil, err
 	}
-	update := r.Client.User.UpdateOneID(*uid)
+	update := ent.FromContext(ctx).User.UpdateOneID(*uid)
 
 	if input.ExternalID != nil {
 		update.SetExternalID(*input.ExternalID)
 	}
 
 	return update.Save(ctx)
+}
+
+// CreateAttribute is the resolver for the createAttribute field.
+func (r *createUserInputResolver) CreateAttribute(ctx context.Context, obj *ent.CreateUserInput, data []*ent.CreateAttributeInput) error {
+	c := ent.FromContext(ctx)
+	builders := make([]*ent.AttributeCreate, len(data))
+	for i := range data {
+		builders[i] = c.Attribute.Create().SetInput(*data[i])
+	}
+	attributes, err := r.Client.Attribute.CreateBulk(builders...).Save(ctx)
+	if err != nil {
+		return err
+	}
+	ids := make([]string, len(attributes))
+	for i := range attributes {
+		ids[i] = attributes[i].ID.String()
+	}
+
+	return nil
 }
 
 // Mutation returns MutationResolver implementation.
