@@ -5,8 +5,11 @@ LABEL authors="Dave Hornigan<dave@hornigan.com>"
 
 WORKDIR /app
 
+COPY go.mod go.sum /app/
+RUN go mod download
+
 COPY . /app/
-RUN go mod download && go generate .
+RUN go generate .
 
 RUN go build -o /app/build/api /app/cmd/api/main.go
 
