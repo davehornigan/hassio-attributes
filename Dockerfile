@@ -9,7 +9,6 @@ COPY . /app/
 RUN go mod download
 
 RUN go build -o /app/build/api /app/cmd/api/main.go
-RUN go build -o /app/build/migrate /app/cmd/migrate/main.go
 
 FROM alpine AS api
 

@@ -5,3 +5,4 @@ tmp
 docs
 graph/generated.go
 graph/models.go
+bin
