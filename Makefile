@@ -1,7 +1,7 @@
 BINARY_NAME=hassio-api
 MAIN=cmd/api/main.go
 
-.PHONY: run generate entgql build clean dbup
+.PHONY: run generate build dev
 
 run: generate
 	go run $(MAIN)
@@ -11,13 +11,6 @@ build: generate
 
 generate:
 	go generate .
-
-# очистка
-clean:
-	rm -rf ./ent/generated ./graph/generated ./graph/models.go ./bin
-
-dbup:
-	docker-compose up -d db
 
 dev:
 	go run -mod=mod github.com/air-verse/air
