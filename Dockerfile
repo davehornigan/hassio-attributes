@@ -6,7 +6,7 @@ LABEL authors="Dave Hornigan<dave@hornigan.com>"
 WORKDIR /app
 
 COPY . /app/
-RUN go mod download
+RUN go mod download && go generate .
 
 RUN go build -o /app/build/api /app/cmd/api/main.go
 
