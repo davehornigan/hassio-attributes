@@ -7,6 +7,7 @@ package graph
 import (
 	"context"
 
+	"entgo.io/contrib/entgql"
 	"github.com/davehornigan/hassio-attributes/ent"
 	"github.com/davehornigan/hassio-attributes/ent/attribute"
 	"github.com/davehornigan/hassio-attributes/ent/user"
@@ -42,13 +43,13 @@ func (r *queryResolver) Nodes(ctx context.Context, ids []string) ([]ent.Noder, e
 }
 
 // Attributes is the resolver for the attributes field.
-func (r *queryResolver) Attributes(ctx context.Context) ([]*ent.Attribute, error) {
-	return r.Client.Attribute.Query().All(ctx)
+func (r *queryResolver) Attributes(ctx context.Context, after *entgql.Cursor[uuid.UUID], first *int, before *entgql.Cursor[uuid.UUID], last *int, orderBy *ent.AttributeOrder, where *ent.AttributeWhereInput) (*ent.AttributeConnection, error) {
+	return r.Client.Attribute.Query().Paginate(ctx, after, first, before, last, ent.WithAttributeOrder(orderBy), ent.WithAttributeFilter(where.Filter))
 }
 
 // Users is the resolver for the users field.
-func (r *queryResolver) Users(ctx context.Context) ([]*ent.User, error) {
-	return r.Client.User.Query().All(ctx)
+func (r *queryResolver) Users(ctx context.Context, after *entgql.Cursor[uuid.UUID], first *int, before *entgql.Cursor[uuid.UUID], last *int, orderBy *ent.UserOrder, where *ent.UserWhereInput) (*ent.UserConnection, error) {
+	return r.Client.User.Query().Paginate(ctx, after, first, before, last, ent.WithUserOrder(orderBy), ent.WithUserFilter(where.Filter))
 }
 
 // ID is the resolver for the id field.
