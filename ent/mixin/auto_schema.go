@@ -59,6 +59,7 @@ func (m AutoSchemaMixin) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entgql.QueryField(m.Single),
 		entgql.QueryField(m.Plural),
+		entgql.RelayConnection(),
 		entgql.Mutations(
 			entgql.MutationCreate(),
 			entgql.MutationUpdate(),
